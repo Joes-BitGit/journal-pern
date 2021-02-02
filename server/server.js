@@ -2,7 +2,9 @@ require('dotenv').config();
 
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const app = express();
+
 
 
 // Imports db/index.js
@@ -10,6 +12,7 @@ const db = require('./db');
 
 app.use(morgan("dev"));
 
+app.use(cors());
 // Need this to create data in json format middleware
 app.use(express.json());
 // MIDDLEWARE Example
