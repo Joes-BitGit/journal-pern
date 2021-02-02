@@ -14,8 +14,8 @@ const AddEntry = () => {
         </div>
         <div className="form-group">
           <label htmlFor="feeling">Feeling Level</label>
-          <select name="feeling" className="custom-select">
-            <option disabled selected>Feeling</option>
+          <select name="feeling" className="custom-select" defaultValue="Feeling">
+            <option disabled >Feeling</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
