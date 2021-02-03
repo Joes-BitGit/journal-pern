@@ -46,7 +46,7 @@ app.post('/api/v1/entries', async (req, res) => {
     // console.log("request create:", req.body);
     const results = await db.query("INSERT INTO entries(time, location, how, personal, professional, feel) VALUES($1, $2, $3,$4,$5,$6) returning *;",
       [req.body.time, req.body.location, req.body.how, req.body.personal, req.body.professional, req.body.feel]);
-    console.log(results.rows);
+    // console.log(results.rows);
     res.status(201).json({
       staus: 'success',
       entry: results.rows[0]
