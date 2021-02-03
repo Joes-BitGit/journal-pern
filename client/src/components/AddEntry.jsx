@@ -1,6 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import Entries from '../apis/Entries'
+import { useHistory } from 'react-router-dom'
+import { EntriesContext } from '../context/EntriesContext'
 
 const AddEntry = () => {
+  const { addEntries } = useContext(EntriesContext)
+  let history = useHistory();
+
   const [when, setWhen] = useState("")
   const [where, setWhere] = useState("")
   const [feel, setFeel] = useState("Feeling")
@@ -9,9 +15,33 @@ const AddEntry = () => {
   const [mindful, setMindful] = useState("")
   const [goal, setGoal] = useState(false)
 
-  const handleCheck = (e) => {
-
+  const handleCheck = () => {
     setGoal(!goal)
+  }
+
+  const handleView = () => {
+    history.push('/entries')
+  }
+
+  const handleSubmit = async () => {
+    // e.preventDefault();
+    history.push('/entries')
+    try {
+      const response = await Entries.post('/', {
+        time: when,
+        location: where,
+        how: feel,
+        personal,
+        professional,
+        feel: mindful
+      })
+      // console.log(response.data);
+
+      addEntries(response.data.entry)
+      window.location = window.location.pathname;
+    } catch (err) {
+      console.log("Err, Submit Entry: ", err);
+    }
   }
 
   return (
@@ -20,11 +50,11 @@ const AddEntry = () => {
         <div className="form-row mb-3">
           {/* Location */}
           <div className="col">
-            <input value={when} onChange={e => setWhen(e.target.value)} type="text" name="location" className="form-control" placeholder="Location" />
+            <input value={where} onChange={e => setWhere(e.target.value)} type="text" name="location" className="form-control" placeholder="Location" />
           </div>
           {/* Date */}
           <div className="col">
-            <input value={where} onChange={e => setWhere(e.target.value)} type="date" name="date" className="form-control" />
+            <input value={when} onChange={e => setWhen(e.target.value)} type="date" name="date" className="form-control" />
           </div>
         </div>
         <div className="form-group">
@@ -61,7 +91,7 @@ const AddEntry = () => {
           {/* Goal */}
           <div className="input-group-prepend">
             <div className="input-group-text">
-              <input type="checkbox" checked={goal} onClick={handleCheck} />
+              <input type="checkbox" checked={goal} onChange={handleCheck} />
             </div>
           </div>
           <input type="text" className="form-control" placeholder="Goal of the Day" />
@@ -69,10 +99,10 @@ const AddEntry = () => {
         {/* Buttons */}
         <div className="form-row">
           <div className="col">
-            <button type="submit" className="btn btn-outline-dark">View All Entries</button>
+            <button type="submit" className="btn btn-outline-dark" onClick={handleView}>View All Entries</button>
           </div>
           <div className="col-auto pb-1">
-            <button type="submit" className="btn btn-primary">Add</button>
+            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Add</button>
           </div>
         </div>
       </form>
