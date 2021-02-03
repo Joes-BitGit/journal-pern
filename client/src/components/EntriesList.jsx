@@ -15,7 +15,7 @@ const EntriesList = () => {
         const response = await Entries.get('/');
         // set our state
         setEntries(response.data.entry);
-        console.log(response.data);
+        // console.log(response.data);
 
       } catch (err) {
         console.log('ERR, EntriesList.jsx: ', err);
@@ -23,6 +23,17 @@ const EntriesList = () => {
     }
     fetchData();
   }, []); // effect doesn't need props or state also to not rerender everytime component mounts
+
+  const handleDelete = async (id) => {
+    try {
+      const del = await Entries.delete(`/${id}`)
+      setEntries(entries.filter((entry) => {
+        return entry.id !== id
+      }))
+    } catch (err) {
+      console.log('ERR, handleDelete: ', err);
+    }
+  }
 
 
   return (
@@ -49,7 +60,7 @@ const EntriesList = () => {
                   <button className="btn btn-warning">EDIT</button>
                 </td>
                 <td>
-                  <button className="btn btn-danger">DELETE</button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(entry.id)}>DELETE</button>
                 </td>
               </tr>
             )
