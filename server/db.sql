@@ -8,6 +8,7 @@ CREATE TABLE entries (
   personal TEXT NOT NULL,
   professional TEXT NOT NULL,
   feel TEXT NOT NULL,
+  -- goal TEXT NOT NULL,
   goal_complete BOOLEAN NOT NULL DEFAULT FALSE
 );
 
