@@ -1,9 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 import { EntriesContext } from '../context/EntriesContext'
 import Entries from '../apis/Entries'
-
+import { useHistory } from 'react-router-dom'
 const EntriesList = () => {
   const { entries, setEntries } = useContext(EntriesContext)
+  let history = useHistory();
+
   // fetch from backend server
   // as soon as the components mounts onto screen
   useEffect(() => {
@@ -35,6 +37,10 @@ const EntriesList = () => {
     }
   }
 
+  const handleEdit = (id) => {
+    history.push(`/entries/${id}/update`)
+  }
+
 
   return (
     <table className="table table-dark table-hover mt-3" >
@@ -57,7 +63,7 @@ const EntriesList = () => {
                 <td>{entry.time}</td>
                 <td>{"😀 ".repeat(entry.how)}</td>
                 <td>
-                  <button className="btn btn-warning">EDIT</button>
+                  <button className="btn btn-warning" onClick={() => handleEdit(entry.id)}>EDIT</button>
                 </td>
                 <td>
                   <button className="btn btn-danger" onClick={() => handleDelete(entry.id)}>DELETE</button>
