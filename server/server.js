@@ -40,6 +40,20 @@ app.get('/api/v1/entries', async (req, res) => {
 
 });
 
+// get one entry
+app.get('/api/v1/entries/:id', async (req, res) => {
+  try {
+    const results = await db.query("SELECT * FROM entries WHERE id=$1;", [req.params.id])
+    res.status(200).json({
+      status: "SUCCESS",
+      entry: results.rows
+    })
+  } catch (err) {
+    console.log("Err, get one entry: ", err);
+    res.status(500);
+  }
+})
+
 // create an entry
 app.post('/api/v1/entries', async (req, res) => {
   try {
@@ -56,6 +70,7 @@ app.post('/api/v1/entries', async (req, res) => {
     res.status(400);
   }
 })
+
 // edit an entry
 app.put('/api/v1/entries/:id', async (req, res) => {
   try {
