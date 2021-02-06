@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-// import { EntriesContext } from '../context/EntriesContext'
+
 import Entries from '../apis/Entries'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 const UpdateEntry = (props) => {
-  // context access
-  // const { entries } = useContext(EntriesContext)
 
+  let history = useHistory()
   // need to access args
   const { id } = useParams()
   const [when, setWhen] = useState("")
@@ -32,6 +31,36 @@ const UpdateEntry = (props) => {
     }
     fetchData()
   }, [])
+
+  const handleCheck = () => {
+    setGoal(!goal)
+  }
+
+  const handleView = () => {
+    history.push('/entries')
+  }
+
+  const handleUpdate = async (e) => {
+    // prevent page from reloading on any change
+    e.preventDefault()
+
+    try {
+      // id from params
+      const response = await Entries.put(`/${id}`, {
+        time: when,
+        location: where,
+        how: feel,
+        personal,
+        professional,
+        feel: mindful,
+        goal: goal
+      })
+      // console.log(response.data);
+      history.push('/entries')
+    } catch (err) {
+      console.log('Err, Update Entry: ', err);
+    }
+  }
 
   return (
 
@@ -81,7 +110,7 @@ const UpdateEntry = (props) => {
           {/* Goal */}
           <div className="input-group-prepend">
             <div className="input-group-text">
-              <input type="checkbox" checked={goal} />
+              <input type="checkbox" checked={goal} onChange={handleCheck} />
             </div>
           </div>
           <input type="text" className="form-control" placeholder="Goal of the Day" />
@@ -89,10 +118,10 @@ const UpdateEntry = (props) => {
         {/* Buttons */}
         <div className="form-row">
           <div className="col">
-            <button type="submit" className="btn btn-outline-dark" >View All Entries</button>
+            <button type="submit" className="btn btn-outline-dark" onClick={handleView}>View All Entries</button>
           </div>
           <div className="col-auto pb-1">
-            <button type="submit" className="btn btn-primary" >Add</button>
+            <button type="submit" className="btn btn-primary" onClick={handleUpdate}>Update</button>
           </div>
         </div>
       </form>
