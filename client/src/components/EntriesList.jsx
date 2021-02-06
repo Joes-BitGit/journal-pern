@@ -41,39 +41,47 @@ const EntriesList = () => {
     history.push(`/entries/${id}/update`)
   }
 
+  const handleAdd = () => {
+    history.push('/')
+  }
+
 
   return (
-    <table className="table table-dark table-hover mt-3" >
-      <thead>
-        <tr className="bg-info">
-          <th scope='col'>Where</th>
-          <th scope='col'>When</th>
-          <th scope='col'>Feeling</th>
-          <th scope='col'>Edit</th>
-          <th scope='col'>Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          entries && entries.map((entry) => {
-            return (
-              <tr key={entry.id}>
-                <td>{entry.location}</td>
-                {/* HOW DO I TRUNCATE DATE FORMAT? */}
-                <td>{entry.time}</td>
-                <td>{"😀 ".repeat(entry.how)}</td>
-                <td>
-                  <button className="btn btn-warning" onClick={() => handleEdit(entry.id)}>EDIT</button>
-                </td>
-                <td>
-                  <button className="btn btn-danger" onClick={() => handleDelete(entry.id)}>DELETE</button>
-                </td>
-              </tr>
-            )
-          })
-        }
-      </tbody>
-    </table >
+    <>
+      <table className="table table-dark table-hover mt-3" >
+        <thead>
+          <tr className="bg-info">
+            <th scope='col'>Where</th>
+            <th scope='col'>When</th>
+            <th scope='col'>Feeling</th>
+            <th scope='col'>Edit</th>
+            <th scope='col'>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            entries && entries.map((entry) => {
+              return (
+                <tr key={entry.id}>
+                  <td>{entry.location}</td>
+                  {/* HOW DO I TRUNCATE DATE FORMAT? */}
+                  <td>{entry.time.split('T')[0]}</td>
+                  <td>{"😁 ".repeat(entry.how)}</td>
+                  <td>
+                    <button className="btn btn-warning" onClick={() => handleEdit(entry.id)}>EDIT</button>
+                  </td>
+                  <td>
+                    <button className="btn btn-danger" onClick={() => handleDelete(entry.id)}>DELETE</button>
+                  </td>
+                </tr>
+              )
+            })
+          }
+        </tbody>
+      </table >
+      <button type="submit" className="btn btn-success btn-block" onClick={handleAdd}>Add New Entry</button>
+    </>
+
   )
 }
 
