@@ -1,10 +1,12 @@
 import React from 'react'
+import DetailPage from '../components/DetailPage.jsx'
 
 const DetailEntry = () => {
   return (
-    <h1 className='text-center'>
-      👨‍💻
-    </h1>
+
+    <DetailPage />
+
+
   )
 }
 
