@@ -32,7 +32,18 @@ const DetailPage = () => {
 
   return (
     <div>
-      <h1 className="text-center display-2">{when.split('T')[0]}</h1>
+      <h1 className="text-center display-3">{where}, {when.split('T')[0]}</h1>
+      <h2>How did You feel? </h2>
+      <p>{feel} / 5</p>
+      <h2>Grateful</h2>
+      <h3>Personally</h3>
+      <p>{personal}</p>
+      <h3>Professionally</h3>
+      <p>{professional}</p>
+      <h2>What was on your mind?</h2>
+      <p>{mindful}</p>
+      <h2>Goal Complete?</h2>
+      <p>{goal ? "True" : "False"}</p>
     </div>
   )
 }
