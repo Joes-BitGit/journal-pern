@@ -26,7 +26,8 @@ const EntriesList = () => {
     fetchData();
   }, []); // effect doesn't need props or state also to not rerender everytime component mounts
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (e, id) => {
+    e.stopPropagation()
     try {
       const del = await Entries.delete(`/${id}`)
       setEntries(entries.filter((entry) => {
@@ -37,12 +38,17 @@ const EntriesList = () => {
     }
   }
 
-  const handleEdit = (id) => {
+  const handleEdit = (e, id) => {
+    e.stopPropagation()
     history.push(`/entries/${id}/update`)
   }
 
   const handleAdd = () => {
     history.push('/')
+  }
+
+  const handleEntrySelect = (id) => {
+    history.push(`entries/${id}`)
   }
 
 
@@ -62,16 +68,16 @@ const EntriesList = () => {
           {
             entries && entries.map((entry) => {
               return (
-                <tr key={entry.id}>
+                <tr key={entry.id} onClick={() => handleEntrySelect(entry.id)}>
                   <td>{entry.location}</td>
                   {/* HOW DO I TRUNCATE DATE FORMAT? */}
                   <td>{entry.time.split('T')[0]}</td>
                   <td>{"😁 ".repeat(entry.how)}</td>
                   <td>
-                    <button className="btn btn-warning" onClick={() => handleEdit(entry.id)}>EDIT</button>
+                    <button className="btn btn-warning" onClick={(e) => handleEdit(e, entry.id)}>EDIT</button>
                   </td>
                   <td>
-                    <button className="btn btn-danger" onClick={() => handleDelete(entry.id)}>DELETE</button>
+                    <button className="btn btn-danger" onClick={(e) => handleDelete(e, entry.id)}>DELETE</button>
                   </td>
                 </tr>
               )
