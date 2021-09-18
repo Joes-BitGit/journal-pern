@@ -1,48 +1,46 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from "react";
 
-import Entries from '../apis/Entries'
-import { useHistory, useParams } from 'react-router-dom'
+import Entries from "../apis/Entries";
+import { useHistory, useParams } from "react-router-dom";
 
 const UpdateEntry = (props) => {
-
-  let history = useHistory()
+  let history = useHistory();
   // need to access args
-  const { id } = useParams()
-  const [when, setWhen] = useState("")
-  const [where, setWhere] = useState("")
-  const [feel, setFeel] = useState("Feeling")
-  const [personal, setPersonal] = useState("")
-  const [professional, setProfessional] = useState("")
-  const [mindful, setMindful] = useState("")
-  const [goal, setGoal] = useState(false)
+  const { id } = useParams();
+  const [when, setWhen] = useState("");
+  const [where, setWhere] = useState("");
+  const [feel, setFeel] = useState("Feeling");
+  const [personal, setPersonal] = useState("");
+  const [professional, setProfessional] = useState("");
+  const [mindful, setMindful] = useState("");
+  const [goal, setGoal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await Entries.get(`/${id}`)
-      // console.log(response.data);
-      setWhen(response.data.entry[0].time)
-      setWhere(response.data.entry[0].location)
-      setFeel(response.data.entry[0].how)
-      setPersonal(response.data.entry[0].personal)
-      setProfessional(response.data.entry[0].professional)
-      setMindful(response.data.entry[0].feel)
-      setGoal(response.data.entry[0].goal_complete)
-
-    }
-    fetchData()
-  }, [])
+      const response = await Entries.get(`/${id}`);
+      // console.log(response.data.entry[0]);
+      setWhen(response.data.entry[0].time);
+      setWhere(response.data.entry[0].location);
+      setFeel(response.data.entry[0].how);
+      setPersonal(response.data.entry[0].personal);
+      setProfessional(response.data.entry[0].professional);
+      setMindful(response.data.entry[0].feel);
+      setGoal(response.data.entry[0].goal_complete);
+    };
+    fetchData();
+  }, []);
 
   const handleCheck = () => {
-    setGoal(!goal)
-  }
+    setGoal(!goal);
+  };
 
   const handleView = () => {
-    history.push('/entries')
-  }
+    history.push("/entries");
+  };
 
   const handleUpdate = async (e) => {
     // prevent page from reloading on any change
-    e.preventDefault()
+    e.preventDefault();
 
     try {
       // id from params
@@ -53,17 +51,16 @@ const UpdateEntry = (props) => {
         personal,
         professional,
         feel: mindful,
-        goal: goal
-      })
-      // console.log(response.data);
-      history.push('/entries')
+        goal: goal,
+      });
+      // console.log(response);
+      history.push("/entries");
     } catch (err) {
-      console.log('Err, Update Entry: ', err);
+      console.log("Err, Update Entry: ", err);
     }
-  }
+  };
 
   return (
-
     <div>
       <form action="" method="post">
         <div className="form-row mb-3">
@@ -71,7 +68,7 @@ const UpdateEntry = (props) => {
           <div className="col">
             <input
               value={where}
-              onChange={e => setWhere(e.target.value)}
+              onChange={(e) => setWhere(e.target.value)}
               type="text"
               name="location"
               className="form-control"
@@ -82,8 +79,8 @@ const UpdateEntry = (props) => {
           {/* Date */}
           <div className="col">
             <input
-              value={when.split('T')[0]}
-              onChange={e => setWhen(e.target.value)}
+              value={when.split("T")[0]}
+              onChange={(e) => setWhen(e.target.value)}
               type="date"
               name="date"
               className="form-control"
@@ -98,10 +95,10 @@ const UpdateEntry = (props) => {
             name="feeling"
             className="custom-select"
             value={feel}
-            onChange={e => setFeel(e.target.value)}
+            onChange={(e) => setFeel(e.target.value)}
             required
           >
-            <option disabled >Feeling</option>
+            <option disabled>Feeling</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -119,13 +116,15 @@ const UpdateEntry = (props) => {
             className="form-control"
             placeholder="I am personally grateful for..."
             value={personal}
-            onChange={e => setPersonal(e.target.value)}
+            onChange={(e) => setPersonal(e.target.value)}
             required
           ></textarea>
         </div>
         <div className="form-group">
           {/* Professional */}
-          <label htmlFor="professionally-grateful">Professionally Grateful</label>
+          <label htmlFor="professionally-grateful">
+            Professionally Grateful
+          </label>
           <textarea
             name="professionally-grateful"
             cols="30"
@@ -133,7 +132,7 @@ const UpdateEntry = (props) => {
             className="form-control"
             placeholder="I am professionally grateful for..."
             value={professional}
-            onChange={e => setProfessional(e.target.value)}
+            onChange={(e) => setProfessional(e.target.value)}
             required
           ></textarea>
         </div>
@@ -147,7 +146,7 @@ const UpdateEntry = (props) => {
             className="form-control"
             placeholder="What's on your mind today?"
             value={mindful}
-            onChange={e => setMindful(e.target.value)}
+            onChange={(e) => setMindful(e.target.value)}
             required
           ></textarea>
         </div>
@@ -194,7 +193,7 @@ const UpdateEntry = (props) => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default UpdateEntry
+export default UpdateEntry;
